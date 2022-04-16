@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <title>Counter - Dapp </title>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+      <link href="css/toastr.min.css" rel="stylesheet">
+      <link href="css/ip2location-image-sprite.css" rel="stylesheet">
+  </head>  
+  <body>
+      <div class='container'>  
+        <div>
+          <div class="col-lg-12 windowbox">
+            <div class="form-group ">                
+                <h1 id="user_reg" style="font-size: 17px">User/Channel Registration</h1>
+            </div>
+            <div class="form-group">
+              <label for="userIdentity">Centralized Identity:</label>
+              <input type="text" id="userIdentity" name="userIdentity"><br><br>
+            </div>
+            <div class="form-group ">
+              <button type="button" id="userReg" class="btn btn-info mb-2">Register User</button>
+              <button type="button" id="channelReg" class="btn btn-info mb-2">Register Channel</button>
+            </div>
+          </div>
+          <!--div class="col-lg-8 windowbox">
+            <div class="form-group ">                
+                <h1 id="channel_reg" style="font-size: 17px">Channel Registration</h1>
+            </div>
+            <div class="form-group">
+              <label for="channelIdentity">Centralized Identity of Channel:</label>
+              <input type="text" id="channelIdentity" name="channelIdentity"><br><br>
+            </div>
+            <div class="form-group ">
+              <button type="button" id="channelReg" class="btn btn-info mb-2">Register Channel</button>
+              <h1 id="channel_Reg"></h1>
+            </div>
+          </div-->
+          <div class="col-lg-12 windowbox">
+            <div class="form-group ">                
+                <h1 id="unregister" style="font-size: 17px">Unregister</h1>
+            </div>
+            <div class="form-group">
+              <label for="cenIdentity">Centralized Identity:</label>
+              <input type="text" id="cenIdentity" name="cenIdentity"><br><br>
+            </div>
+            <div class="form-group ">
+              <button type="button" id="unReg" class="btn btn-info mb-2">Unregister</button>
+              <h1 id="unRegister"></h1>
+            </div>
+          </div>             
+          <div class="col-lg-12 windowbox">
+              <div class="form-group">
+                  <h1 style="font-size: 17px">Please select sports to watch:</h1>
+                  <input type="radio" id="football" name="sports" value="1">
+                  <label for="football">Football</label><br>
+                  <input type="radio" id="soccer" name="sports" value="2">
+                  <label for="soccer">Soccer</label><br>
+              </div>
+              <div class="form-group">
+                <h1 style="font-size: 17px">Please select the duration:</h1>
+                  <input type="radio" id="one-hour" name="duration" value="1">
+                  <label for="one-hour">1 hour</label><br>
+                  <input type="radio" id="two-hour" name="duration" value="2">
+                  <label for="two-hour">2 hour</label><br>
+              </div>
+              <div class="form-group">
+                <h1 for="match" style="font-size: 17px">Please select an upcoming match:</h1>
+
+                <select name="match" id="match">
+                  <option value="match1">Barcelona v Real Madrid</option>
+                  <option value="match2">Manchester United v Manchester City</option>
+                  <option value="match3">Liverpool v Chelsea</option>
+                  <option value="match4">Arsenal v Tottenham</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+              <h1 for="match" style="font-size: 17px">Please select a channel:</h1>
+
+              <select name="channel" id="channel">
+                <option value="0x4f23209c7fE6d7DaBA7F4beFF68f61241cB2aD33">ESPN</option>
+                <option value="0x16E2AFF803ba0F70b4bD345bb5955af4780ba68c">SonyLIV</option>
+                <option value="0x9b6647f6ff7B17019f902EB5f1a393DD221694F7">Paramount</option>
+                <option value="0x9F322Da5a1759FF38dF69f0Cc1A2aCEbdD328Cb7">CBS Sports</option>
+              </select>
+              </div>
+              <div class="form-group">
+                <h1 for="amount" style="font-size: 17px">Please enter amount (2 ethers per game):</h1>
+                <input type="text" id="amount" name="amount"><br><br>
+              </div>
+              <div class="form-group ">
+                <button type="button" id="paymentConfirm" class="btn btn-info mb-2">Pay with Ethers</button>
+                <button type="button" id="paymentConfirm" class="btn btn-info mb-2">Pay with Points</button>
+                <h1 id="reward_value"></h1>
+                <button type="button" id="getRewards" class="btn btn-info mb-2">Show Rewards</button>
+                <h1 id="contract_bal"></h1>
+                <button type="button" id="getBalance" class="btn btn-info mb-2">Show Contract Balance</button>
+              </div>
+          </div>
+        </div>
+      </div>
+    </body>
+    <script  src="js/toastr.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js@1.0.0-beta.37/dist/web3.min.js"></script>
+    <script src="js/app.js"></script>
+
+</html>
