@@ -10,6 +10,13 @@ contract RushCon{
         uint hashOfDetails;
     }
 
+    struct providers{
+        uint numProviders;
+        mapping (uint =>address) providerList;
+    }
+
+    providers allProviders;
+
     uint commission = 20;
     mapping (address=>uint) public rewards;
     mapping (address=>matchInfo) public matchDetails;
@@ -43,12 +50,21 @@ contract RushCon{
         return rewards[msg.sender];
     }
 
+    function getProviders() public view returns(address[] memory){
+        address[] memory addressArray = new address[](allProviders.numProviders);
+        for(uint i = 0; i < allProviders.numProviders; i++) {
+            addressArray[i] = allProviders.providerList[i];
+        }
+        return addressArray;
+    }
+
     function registerUser(address user) public {
         registered[user] = 1;
     }
 
     function registerProvider(address provider) public {
         registered[provider] = 2;
+        allProviders.providerList[allProviders.numProviders++] = provider;
     }
 
     function unregister(address member) onlyChairperson public{

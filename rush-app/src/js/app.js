@@ -1,7 +1,7 @@
 App = {
     web3: null,
     contracts: {},
-    address:'0x8d86ec1e9583f270D9979fdb0C530f764C01084B',
+    address:'0x1C3F4ac0cD6D1dAE707beBE3eE837F59bf5E59aa',
     network_id:3, // 5777 for local
     handler:null,
     value:1000000000000000000,
@@ -49,6 +49,9 @@ App = {
       });
       $(document).on('click', '#getBalance', function(){
         App.handleBalance();
+      });
+      $(document).on('click', '#getList', function(){
+        App.handleProviders();
       });
       App.populateAddress();
     },
@@ -138,7 +141,28 @@ App = {
         jQuery('#contract_bal').text(r)
       })
     },
-    
+    handleProviders:function(){
+      var array = new Array();
+      App.contracts.RushCon.methods.getProviders()
+      .call()
+      .then((r)=>{
+        jQuery.extend(array, r)
+        var select = document.getElementById("channel");
+        for(var i = 0; i < array.length; i++) {
+          var opt = array[i];
+          var el = document.createElement("option");
+          el.textContent = "Channel" + (i+1);
+          el.value = opt;
+          select.appendChild(el);
+        }
+        const options = []
+
+        document.querySelectorAll('#channel > option').forEach((option) => {
+          if (options.includes(option.value)) option.remove()
+          else options.push(option.value)
+        })
+      })
+    },    
     handleIncrement:function(incrementValue){
       if (incrementValue===''){
         alert("Please enter a valid incrementing value.")
@@ -192,6 +216,20 @@ App = {
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "getProviders",
+      "outputs": [
+        {
+          "internalType": "address[]",
+          "name": "",
+          "type": "address[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [
