@@ -43,7 +43,7 @@ contract RushCon{
         payable(address(this)).transfer(msg.value);  // can send some value to the contract initially
     }
 
-    function viewCommission() public view onlyChairperson returns(uint) {
+    function viewCommission() public view returns(uint) {
         return address(this).balance;
     }
 
@@ -69,9 +69,6 @@ contract RushCon{
     }
 
     function unregister(address member) onlyChairperson public{
-        if(chairperson != msg.sender){
-            revert();
-        }
         if(registered[member] == 0){
             revert();
         }
