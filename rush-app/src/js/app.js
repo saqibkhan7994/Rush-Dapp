@@ -1,7 +1,7 @@
 App = {
     web3: null,
     contracts: {},
-    address:'0x1C3F4ac0cD6D1dAE707beBE3eE837F59bf5E59aa',
+    address:'0xAD26ddE83A6A4212D81b57c86e92c4b3c2a6bB23',
     network_id:3, // 5777 for local
     handler:null,
     value:1000000000000000000,
@@ -24,8 +24,7 @@ App = {
     },
 
     initContract: function() { 
-      App.contracts.RushCon = new App.web3.eth.Contract(App.abi,App.address, {});
-      // console.log(random)    
+      App.contracts.RushCon = new App.web3.eth.Contract(App.abi,App.address, {});   
       return App.bindEvents();
     },  
   
@@ -53,12 +52,40 @@ App = {
       $(document).on('click', '#getList', function(){
         App.handleProviders();
       });
+      $(document).on('click', '#payEther', function(){
+        App.handleRadioPay();
+      });
+      $(document).on('click', '#payPoints', function(){
+        App.handleRadioPay();
+      });
+      $(function(){
+        const pay = document.getElementById('amountBox');
+        const reward = document.getElementById('rewardBox');
+        pay.style.display = 'none';
+        reward.style.display = 'none';
+      });
       App.populateAddress();
     },
+
     populateAddress : function(){  
       App.handler=App.web3.givenProvider.selectedAddress;
     },  
   
+    handleRadioPay:function() {
+      const pay = document.getElementById('amountBox');
+      const reward = document.getElementById('rewardBox');
+      if (document.getElementById('payEther').checked) {
+        pay.style.display = 'block';
+        reward.style.display = 'none';
+        document.getElementById('reward_value').style.display = 'none';
+        document.getElementById("paymentConfirm").disabled = false;
+      } else {
+        pay.style.display = 'none';
+        reward.style.display = 'block';
+        document.getElementById('reward_value').style.display = 'none';
+        document.getElementById('amount').value = "";
+      }
+    },
     handleUserRegistration:function(userAddress){
       if (userAddress===''){
         alert("Please enter a valid user address.")
@@ -104,6 +131,12 @@ App = {
       .on('receipt',(receipt)=>{
         if(receipt.status){
           toastr.success("Address is unregistered successfully " + inputAddress);
+          var select=document.getElementById('channel');
+          for (i=0; i<select.length; i++) {
+            if (select.options[i].value== inputAddress) {
+              select.remove(i);
+            }
+          }
       }})
       .on('error',(err)=>{
         toastr.error("Address unregistration is unsuccessful");
@@ -114,12 +147,21 @@ App = {
         alert("Please enter a valid address.")
         return false
       }
+      if(document.getElementById('payPoints').checked &&  jQuery('#reward_value').val() < 10){
+        alert("Insufficient reward points. Minimum required points is 100. Please pay using Ethers");
+        return;
+      }
       var option={from:App.handler, value: jQuery('#amount').val()}    
       App.contracts.RushCon.methods.confirmPayment(channelAddress)
       .send(option)
       .on('receipt',(receipt)=>{
         if(receipt.status){
           toastr.success("Payment is successful" + channelAddress);
+          if(document.getElementsByName('sports') == 1){
+            window.open('https://youtu.be/CGFgHjeEkbY', '_blank');
+          }else{
+            window.open('https://youtu.be/jQ1l5zenaKY', '_blank');
+          }
       }})
       .on('error',(err)=>{
         toastr.error("Payment is unsuccessful");
@@ -128,10 +170,12 @@ App = {
 
     handleGet:function(){
       var option={from:App.handler}
+      document.getElementById('reward_value').style.display = 'block';
       App.contracts.RushCon.methods.viewRewards()
       .call(option)
       .then((r)=>{
         jQuery('#reward_value').text(r)
+        jQuery('#reward_value').val(r)
       })
     },
     handleBalance:function(){
@@ -151,7 +195,7 @@ App = {
         for(var i = 0; i < array.length; i++) {
           var opt = array[i];
           var el = document.createElement("option");
-          el.textContent = "Channel" + (i+1);
+          el.textContent = "Channel " + (i+1);
           el.value = opt;
           select.appendChild(el);
         }
@@ -162,34 +206,7 @@ App = {
           else options.push(option.value)
         })
       })
-    },    
-    handleIncrement:function(incrementValue){
-      if (incrementValue===''){
-        alert("Please enter a valid incrementing value.")
-        return false
-      }
-      var option={from:App.handler} 
-      App.contracts.Counter.methods.increment(incrementValue)
-      .send(option)
-      .on('receipt',(receipt)=>{
-        if(receipt.status){
-          toastr.success("Counter is incremented by " + incrementValue);
-      }})
-    },
-
-    handleDecrement:function(decrementValue){
-      if (decrementValue===''){
-        alert("Please enter a valid decrementing value.")
-        return false
-      }
-      var option={from:App.handler} 
-      App.contracts.Counter.methods.decrement(decrementValue)
-      .send(option)
-      .on('receipt',(receipt)=>{
-        if(receipt.status){
-          toastr.success("Counter is decremented by " + decrementValue);
-      }})
-    }, 
+    },     
   abi:[
     {
       "inputs": [
@@ -285,48 +302,6 @@ App = {
       "stateMutability": "payable",
       "type": "function",
       "payable": true
-    },
-    {
-      "constant": true,
-      "inputs": [],
-      "name": "get",
-      "outputs": [
-        {
-          "name": "",
-          "type": "int256"
-        }
-      ],
-      "payable": false,
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "constant": false,
-      "inputs": [
-        {
-          "name": "n",
-          "type": "int256"
-        }
-      ],
-      "name": "increment",
-      "outputs": [],
-      "payable": false,
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "constant": false,
-      "inputs": [
-        {
-          "name": "n",
-          "type": "int256"
-        }
-      ],
-      "name": "decrement",
-      "outputs": [],
-      "payable": false,
-      "stateMutability": "nonpayable",
-      "type": "function"
     }
   ]
 
@@ -336,7 +311,6 @@ App = {
     $(window).load(function() {
       App.init();
       toastr.options = {
-        // toastr.options = {
           "closeButton": true,
           "debug": false,
           "newestOnTop": false,
@@ -352,7 +326,6 @@ App = {
           "hideEasing": "linear",
           "showMethod": "fadeIn",
           "hideMethod": "fadeOut"
-        // }
       };
     });
   });

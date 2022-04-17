@@ -10,11 +10,16 @@
       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
       <link href="css/toastr.min.css" rel="stylesheet">
       <link href="css/ip2location-image-sprite.css" rel="stylesheet">
+      <style>
+        body {
+          background-image: url('football_background_page.png');
+        }
+        </style>
   </head>  
   <body>
       <div class='container'>  
         <div>
-          <div class="col-lg-12 windowbox">
+          <div class="col-lg-10 windowbox">
             <div class="form-group ">                
                 <h1 id="user_reg" style="font-size: 17px">User/Channel Registration</h1>
             </div>
@@ -27,20 +32,7 @@
               <button type="button" id="channelReg" class="btn btn-info mb-2">Register Channel</button>
             </div>
           </div>
-          <!--div class="col-lg-8 windowbox">
-            <div class="form-group ">                
-                <h1 id="channel_reg" style="font-size: 17px">Channel Registration</h1>
-            </div>
-            <div class="form-group">
-              <label for="channelIdentity">Centralized Identity of Channel:</label>
-              <input type="text" id="channelIdentity" name="channelIdentity"><br><br>
-            </div>
-            <div class="form-group ">
-              <button type="button" id="channelReg" class="btn btn-info mb-2">Register Channel</button>
-              <h1 id="channel_Reg"></h1>
-            </div>
-          </div-->
-          <div class="col-lg-12 windowbox">
+          <div class="col-lg-10 windowbox">
             <div class="form-group ">                
                 <h1 id="unregister" style="font-size: 17px">Unregister</h1>
             </div>
@@ -53,7 +45,7 @@
               <h1 id="unRegister"></h1>
             </div>
           </div>             
-          <div class="col-lg-12 windowbox">
+          <div class="col-lg-10 windowbox">
               <div class="form-group">
                   <h1 style="font-size: 17px">Please select sports to watch:</h1>
                   <input type="radio" id="football" name="sports" value="1">
@@ -88,17 +80,28 @@
               <button type="button" id="getList" class="btn btn-info mb-2">Populate Providers</button>
               </div>
               <div class="form-group">
-                <h1 for="amount" style="font-size: 17px">Please enter amount (2 ethers per game):</h1>
-                <input type="text" id="amount" name="amount"><br><br>
+                <h1 style="font-size: 17px">Please select payment option:</h1>
+                <input type="radio" id="payEther" name="payOption" value="1">
+                <label for="football">Ether</label><br>
+                <span id = "amountBox">
+                  <h1 for="amount" style="font-size: 17px">Please enter amount (2 ethers per game):</h1>
+                  <input type="text" id="amount" name="amount"><br>
+                </span>
+                <input type="radio" id="payPoints" name="payOption" value="2">
+                <label for="soccer">Reward Points</label><br>
+                <span id = "rewardBox">
+                  <h1 id="reward_value" style="font-size:30px;"></h1>
+                  <button type="button" id="getRewards" class="btn btn-info mb-2">Show Rewards</button>
+                </span>
+                <button type="button" id="paymentConfirm" class="btn btn-info mb-2">Pay</button>
               </div>
-              <div class="form-group ">
-                <button type="button" id="paymentConfirm" class="btn btn-info mb-2">Pay with Ethers</button>
-                <button type="button" id="paymentConfirm" class="btn btn-info mb-2">Pay with Points</button>
-                <h1 id="reward_value"></h1>
-                <button type="button" id="getRewards" class="btn btn-info mb-2">Show Rewards</button>
-                <h1 id="contract_bal"></h1>
-                <button type="button" id="getBalance" class="btn btn-info mb-2">Show Contract Balance</button>
-              </div>
+          </div>
+          <div class="col-lg-10 windowbox">
+            <div class="form-group ">
+              <h1 for="amount" style="font-size: 17px">Commission Received by Smart Contract:</h1>
+              <h1 id="contract_bal" style="font-size:30px;"></h1>
+              <button type="button" id="getBalance" class="btn btn-info mb-2">Show Commission</button>
+            </div>
           </div>
         </div>
       </div>

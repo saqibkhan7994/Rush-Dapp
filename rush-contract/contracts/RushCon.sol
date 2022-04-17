@@ -71,6 +71,17 @@ contract RushCon{
         if(chairperson != msg.sender){
             revert();
         }
+        if(registered[member] == 0){
+            revert();
+        }
+        if(registered[member] == 2){
+            for(uint i = 0; i < allProviders.numProviders; i++) {
+                if(allProviders.providerList[i] == member){
+                    delete allProviders.providerList[i];
+                }
+            }
+            allProviders.numProviders--;
+        }
         registered[member] = 0;
     }
 
