@@ -1,7 +1,7 @@
 App = {
     web3: null,
     contracts: {},
-    address:'0xAD26ddE83A6A4212D81b57c86e92c4b3c2a6bB23',
+    address:'0x86d4e9883D83551dF634217F88274Ad7C9209129',
     network_id:3, // 5777 for local
     handler:null,
     value:1000000000000000000,
@@ -147,6 +147,14 @@ App = {
         alert("Please enter a valid address.")
         return false
       }
+      if (!document.querySelector('input[name = "sports"]:checked')){
+        alert("Please select a sport")
+        return false;
+      }
+      if (!document.querySelector('input[name = "duration"]:checked')){
+        alert("Please select duration of stream")
+        return false;
+      }
       if(document.getElementById('payPoints').checked &&  jQuery('#reward_value').val() < 10){
         alert("Insufficient reward points. Minimum required points is 100. Please pay using Ethers");
         return;
@@ -157,7 +165,7 @@ App = {
       .on('receipt',(receipt)=>{
         if(receipt.status){
           toastr.success("Payment is successful" + channelAddress);
-          if(document.getElementsByName('sports') == 1){
+          if(jQuery('#soccer').val() != ""){
             window.open('https://youtu.be/CGFgHjeEkbY', '_blank');
           }else{
             window.open('https://youtu.be/jQ1l5zenaKY', '_blank');
@@ -179,7 +187,7 @@ App = {
       })
     },
     handleBalance:function(){
-      App.contracts.RushCon.methods.viewBalance()
+      App.contracts.RushCon.methods.viewCommission()
       .call()
       .then((r)=>{
         jQuery('#contract_bal').text(r)
@@ -263,7 +271,7 @@ App = {
     },
     {
       "inputs": [],
-      "name": "viewBalance",
+      "name": "viewCommission",
       "outputs": [
         {
           "internalType": "uint256",

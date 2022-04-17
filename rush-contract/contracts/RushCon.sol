@@ -7,7 +7,8 @@ contract RushCon{
 
     struct matchInfo{
         uint status;
-        uint hashOfDetails;
+        uint matchNumber;
+        uint matchDuration;
     }
 
     struct providers{
@@ -42,11 +43,11 @@ contract RushCon{
         payable(address(this)).transfer(msg.value);  // can send some value to the contract initially
     }
 
-    function viewBalance() public view returns(uint) {
+    function viewCommission() public view onlyChairperson returns(uint) {
         return address(this).balance;
     }
 
-    function viewRewards() public view returns(uint) {
+    function viewRewards() public view onlyUser returns(uint) {
         return rewards[msg.sender];
     }
 
@@ -85,17 +86,17 @@ contract RushCon{
         registered[member] = 0;
     }
 
-    function requestStream(uint hashOfDetails) onlyUser public{
+    function requestStream(uint matchId, uint duration) onlyUser public{
         matchDetails[msg.sender].status = 0;
-        matchDetails[msg.sender].hashOfDetails = hashOfDetails;
+        matchDetails[msg.sender].matchNumber = matchId;
+        matchDetails[msg.sender].matchDuration = duration;
     }
 
-    function responseStream(address user, uint hashOfDetails, uint status) onlyProvider public{
+    function responseStream(address user, uint status) onlyProvider public{
         if(registered[user] != 1){
             revert();
         }
         matchDetails[user].status = status;
-        matchDetails[user].hashOfDetails = hashOfDetails;
     }
 
     function confirmPayment(address payable channel) onlyUser payable public{
