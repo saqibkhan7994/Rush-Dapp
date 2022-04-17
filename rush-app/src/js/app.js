@@ -151,10 +151,6 @@ App = {
         alert("Please select a sport")
         return false;
       }
-      if (!document.querySelector('input[name = "duration"]:checked')){
-        alert("Please select duration of stream")
-        return false;
-      }
       if(document.getElementById('payPoints').checked &&  jQuery('#reward_value').val() < 10){
         alert("Insufficient reward points. Minimum required points is 100. Please pay using Ethers");
         return;
