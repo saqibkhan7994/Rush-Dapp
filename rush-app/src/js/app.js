@@ -1,7 +1,7 @@
 App = {
     web3: null,
     contracts: {},
-    address:'0x5636AB363Bd426a27F7a899A35813f267f189Db3',
+    address:'0x759D55870A2FbEEcC7b467d98F2C5af4444f5473',
     network_id:3, // 5777 for local
     handler:null,
     value:1000000000000000000,
@@ -151,7 +151,7 @@ App = {
         alert("Please select a sport")
         return false;
       }
-      if(document.getElementById('payPoints').checked &&  jQuery('#reward_value').val() < 10){
+      if(document.getElementById('payPoints').checked &&  jQuery('#reward_value').val() < 100){
         alert("Insufficient reward points. Minimum required points is 100. Please pay using Ethers");
         return;
       }
