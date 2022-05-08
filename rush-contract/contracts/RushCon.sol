@@ -2,6 +2,8 @@
 
 pragma solidity ^0.8.13;
 
+import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+
 contract RushCon{
     address chairperson;
 
@@ -23,6 +25,8 @@ contract RushCon{
     mapping (address=>matchInfo) public matchDetails;
     mapping (address=>uint) public registered;
 
+    IERC20 private _token;
+
     modifier onlyChairperson{
         require(msg.sender == chairperson);
         _;
@@ -38,7 +42,8 @@ contract RushCon{
         _;
     }
 
-    constructor() payable{
+    constructor(IERC20 token) payable{
+        _token = token;
         chairperson = msg.sender;
         payable(address(this)).transfer(msg.value);  // can send some value to the contract initially
     }
@@ -109,6 +114,6 @@ contract RushCon{
             amount = (uint)(((100-commission)*msg.value)/100);
             rewards[msg.sender] = rewards[msg.sender] + 10;
         }
-        channel.transfer(amount);
+        _token.transferFrom(msg.sender, channel, amount);
     }
 }

@@ -1,7 +1,8 @@
 App = {
     web3: null,
     contracts: {},
-    address:'0x759D55870A2FbEEcC7b467d98F2C5af4444f5473',
+    address:'0x6486B0Bdc532B5885cb2a371C7b278263914DB32', //ropsten - 0x759D55870A2FbEEcC7b467d98F2C5af4444f5473 , ganache - 0x0457bc03A8cfFEeF0E2B2798b09E092Ee41729A2
+    addressToken: '0x4d129F05cfc0Af14Fa08F2b1B31868b91ba88c30',
     network_id:3, // 5777 for local
     handler:null,
     value:1000000000000000000,
@@ -24,8 +25,18 @@ App = {
     },
 
     initContract: function() { 
-      App.contracts.RushCon = new App.web3.eth.Contract(App.abi,App.address, {});   
+      App.contracts.RushCon = new App.web3.eth.Contract(App.abi,App.address, {});
+      App.contracts.RCToken = new App.web3.eth.Contract(App.abi,App.addressToken, {});   
       return App.bindEvents();
+    },
+
+    showTokens:function(){
+      var address=App.handler;
+      App.contracts.RCToken.methods.balanceOf(address)
+      .call()
+      .then((r)=>{
+        jQuery('#RCNBalance').text(r)
+      })
     },  
   
     bindEvents: function() {  
@@ -58,6 +69,15 @@ App = {
       $(document).on('click', '#payPoints', function(){
         App.handleRadioPay();
       });
+      $(document).on('click', '#allow',function(){
+        App.handleAllowance(jQuery('#marketIdentity').val(), jQuery('#noTokens').val());
+      });
+      $(document).on('click', '#getAllowance', function(){
+        App.getAllowance(jQuery('#ownerIdentity').val(), jQuery('#marketIdentity').val());
+      });
+      $(document).on('click', '#RCNTransfer',function(){
+        App.handleRCNTransfer(jQuery('#benAddr').val(), jQuery('#numberRCN').val());
+      });
       $(function(){
         const pay = document.getElementById('amountBox');
         const reward = document.getElementById('rewardBox');
@@ -65,6 +85,7 @@ App = {
         reward.style.display = 'none';
       });
       App.populateAddress();
+      App.showTokens();
     },
 
     populateAddress : function(){  
@@ -142,6 +163,57 @@ App = {
         toastr.error("Address unregistration is unsuccessful");
       })
     },
+
+    handleAllowance:function(inputAddress, noTokens){
+      if (inputAddress===''){
+        alert("Please enter a valid address.")
+        return false
+      }
+      if (noTokens===''){
+        alert("Please enter number of Tokens.")
+        return false
+      }
+      var option={from:App.handler}    
+      App.contracts.RCToken.methods.approve(inputAddress, noTokens)
+      .send(option)
+      .on('receipt',(receipt)=>{
+        if(receipt.status){
+          toastr.success("Approve successful " + inputAddress);
+      }})
+      .on('error',(err)=>{
+        toastr.error("Approve unsuccessful");
+      })
+    },
+
+    getAllowance:function(marketIdentity, ownerIdentity){
+      App.contracts.RCToken.methods.allowance(marketIdentity, ownerIdentity)
+      .call()
+      .then((r)=>{
+        jQuery('#market_allowance').text(r)
+      })
+    },
+
+    handleRCNTransfer:function(inputAddress, noTokens){
+      if (inputAddress===''){
+        alert("Please enter a valid address.")
+        return false
+      }
+      if (noTokens===''){
+        alert("Please enter number of Tokens.")
+        return false
+      }
+      var option={from:App.handler}    
+      App.contracts.RCToken.methods.transfer(inputAddress, noTokens)
+      .send(option)
+      .on('receipt',(receipt)=>{
+        if(receipt.status){
+          toastr.success("Transfer successful " + inputAddress);
+      }})
+      .on('error',(err)=>{
+        toastr.error("Transfer unsuccessful");
+      })
+    },
+
     handlePayment:function(channelAddress){
       if (channelAddress===''){
         alert("Please enter a valid address.")
@@ -306,6 +378,100 @@ App = {
       "stateMutability": "payable",
       "type": "function",
       "payable": true
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "delegate",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "numTokens",
+          "type": "uint256"
+        }
+      ],
+      "name": "approve",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "owner",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "delegate",
+          "type": "address"
+        }
+      ],
+      "name": "allowance",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function",
+      "constant": true
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "receiver",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "numTokens",
+          "type": "uint256"
+        }
+      ],
+      "name": "transfer",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "payable",
+      "type": "function",
+      "payable": true
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "tokenOwner",
+          "type": "address"
+        }
+      ],
+      "name": "balanceOf",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function",
+      "constant": true
     }
   ]
 

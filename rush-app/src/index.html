@@ -21,6 +21,13 @@
       <div class='container'> 
         <div>
           <div class="col-lg-10 windowbox">
+            <div class="form-group ">
+                <h1 id="tokBalance" style="font-size: 17px">Token Balance</h1>      
+                <h1 id="RCNBalance" style="font-size:30px;"></h1>         
+                <!--button type="button" id="tokBalance" class="btn btn-info mb-2">Show Tokens</button-->
+            </div>
+          </div>
+          <div class="col-lg-10 windowbox">
             <div class="form-group ">                
                 <h1 id="user_reg" style="font-size: 17px">User/Channel Registration</h1>
             </div>
@@ -45,6 +52,38 @@
               <button type="button" id="unReg" class="btn btn-info mb-2">Unregister</button>
               <h1 id="unRegister"></h1>
             </div>
+          </div>
+          <div class="col-lg-10 windowbox">
+            <div class="form-group ">                
+              <h1 id="user_reg" style="font-size: 17px">Transfer RCN Tokens</h1>
+            </div>
+            <div class="form-group">
+              <label for="benAddr">Beneficiary Address:</label>
+              <input type="text" id="benAddr" name="benAddr"><br><br>
+              <label for="numberRCN">Number of Tokens:</label>
+              <input type="text" id="numberRCN" name="numberRCN"><br><br>
+            </div>
+            <div class="form-group ">
+              <button type="button" id="RCNTransfer" class="btn btn-info mb-2">Transfer</button>
+            </div>
+          </div>
+          <div class="col-lg-10 windowbox">
+            <div class="form-group ">                
+                <h1 id="allowance" style="font-size: 17px">Allowance</h1>
+            </div>
+            <div class="form-group">
+              <label for="marketIdentity">Marketplace Address:</label>
+              <input type="text" id="marketIdentity" name="marketIdentity"><br><br>
+              <label for="ownerIdentity">Owner Address:</label>
+              <input type="text" id="ownerIdentity" name="ownerIdentity"><br><br>
+              <label for="noTokens">Number of Tokens:</label>
+              <input type="text" id="noTokens" name="noTokens"><br><br>
+            </div>
+            <div class="form-group ">
+              <button type="button" id="allow" class="btn btn-info mb-2">Allow</button>
+            </div>
+            <h1 id="market_allowance" style="font-size:30px;"></h1>
+              <button type="button" id="getAllowance" class="btn btn-info mb-2">Show Allowance</button>
           </div>             
           <div class="col-lg-10 windowbox">
               <div class="form-group">
